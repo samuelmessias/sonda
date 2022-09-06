@@ -1,6 +1,7 @@
 package com.example.sonda.controllers;
 
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.sonda.dto.AeronaveDTO;
+import com.example.sonda.enuns.Marca;
 import com.example.sonda.projections.AeronaveMinProjection;
 import com.example.sonda.services.AeronaveService;
 import com.example.sonda.specifications.SpecificationTemplate;
 import com.fasterxml.jackson.annotation.JsonView;
 
 @RestController
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping(value = "/aeronaves")
 public class AeronaveController {
 	
@@ -74,7 +78,7 @@ public class AeronaveController {
 		return ResponseEntity.ok().body(service.getCountByVendido());
 	}
 	
-	@GetMapping(value = "/marcas")
+	@GetMapping(value = "/qto/marcas")
 	public ResponseEntity<List<AeronaveMinProjection>> getCountByMarca(){
 		return ResponseEntity.ok().body(service.getCountByMarca());
 	}
@@ -82,6 +86,11 @@ public class AeronaveController {
 	@GetMapping(value = "/semana")
 	public ResponseEntity<Long> getCountLastWeek(){
 		return ResponseEntity.ok().body(service.getCountLastWeek());
+	}
+	
+	@GetMapping(value = "/marcas")
+	public ResponseEntity<List<Marca>> getMarca(){
+		return ResponseEntity.ok().body(Arrays.asList(Marca.values()));
 	}
 	
 

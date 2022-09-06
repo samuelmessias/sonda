@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.example.sonda.services.exceptions.DatabaseException;
 import com.example.sonda.services.exceptions.ResourceNotFoundException;
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 
 
@@ -58,5 +59,26 @@ public class ResourceExceptionHandler {
 		}
 		
 		return ResponseEntity.status(status).body(err);
-	}	
+	}
+	
+	
+	@ExceptionHandler(InvalidFormatException.class)
+	public ResponseEntity<StandardError> database(InvalidFormatException e, HttpServletRequest request) {
+		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
+		ValidationError err = new ValidationError();
+		err.setTimestamp(Instant.now());
+		err.setStatus(status.value());
+		err.setError("Validation exception");
+		err.setMessage(e.getMessage());
+		err.setPath(request.getRequestURI());
+		
+		
+			err.addError("marca", "campo não encontrado");
+		
+		return ResponseEntity.status(status).body(err);
+	}
+	
+	
+	
+	
 }

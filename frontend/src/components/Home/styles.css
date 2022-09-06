@@ -1,0 +1,19 @@
+.aero-table-container {
+  margin-bottom: 10px;
+}
+
+.aero-table-title {
+  font-size: 18px;
+}
+
+.card-input {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.btn-delete {
+  width: 100px;
+  color: red;
+  border-radius: 5px;
+  border: 1px solid red;
+}
