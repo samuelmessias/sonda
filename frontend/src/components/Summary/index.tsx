@@ -10,7 +10,7 @@ const Summary = ({ qto }: Props) => {
         <div className="summary-container base-card">
             <div className="row">
                 <div className="col-sm-6">
-                    <span>Década 90:</span> 2 Aeronaves
+                    <span></span>
                 </div>
                 <div className="col-sm-6">
                     <span>Essa semana:</span> {qto} Aeronaves

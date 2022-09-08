@@ -22,17 +22,6 @@ const Form = ({ onSubmitChange }: Props) => {
     } = useForm<Aeronave>();
 
 
-    const marcas = [
-        { value: 'Airbus', label: 'Airbus' },
-        { value: 'Boeing', label: 'Boeing' },
-        { value: 'Embraer', label: 'Embraer' }
-    ]
-
-    const vendidos = [
-        { value: 'false', label: 'False' },
-        { value: 'true', label: 'True' }
-    ]
-
     const onSubmit = (formData: Aeronave) => {
         const data = {
             ...formData
@@ -43,6 +32,8 @@ const Form = ({ onSubmitChange }: Props) => {
             url: `${BASE_URL}/aeronaves`,
             data
         }
+
+        console.log(data)
         axios(params).then(response => {
             setValue('nome', '');
             setValue('marca', '');
@@ -52,7 +43,8 @@ const Form = ({ onSubmitChange }: Props) => {
             onSubmitChange();
             toast.info("Aeronave salva com sucesso");
         }).catch((error) => {
-            toast.info("Error ao salva a  avaliação");
+            console.log(error.response.data.errors[0]);
+            toast.error(error.response.data.errors[0].fieldName + ':  ' + error.response.data.errors[0].message);
         });
 
 
@@ -109,7 +101,7 @@ const Form = ({ onSubmitChange }: Props) => {
                                     <div className="margin-bottom-30 ">
                                         <input
                                             {...register('vendido', {
-                                                required: 'Campo obrigatório',
+
                                             })}
                                             type="text"
                                             className={`form-control base-input ${errors.vendido ? 'is-invalid' : ''
@@ -132,7 +124,7 @@ const Form = ({ onSubmitChange }: Props) => {
                                     <div className="margin-bottom-30">
                                         <input
                                             {...register('descricao', {
-                                                required: 'Campo obrigatório',
+
                                             })}
                                             type="text"
                                             className={`form-control base-input ${errors.descricao ? 'is-invalid' : ''
@@ -152,7 +144,7 @@ const Form = ({ onSubmitChange }: Props) => {
                                             {...register('ano', {
                                                 required: 'Campo obrigatório',
                                             })}
-                                            type="text"
+                                            type="number"
                                             className={`form-control base-input ${errors.ano ? 'is-invalid' : ''
                                                 }`}
                                             placeholder="Ano"

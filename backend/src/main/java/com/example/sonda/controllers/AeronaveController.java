@@ -1,7 +1,6 @@
 package com.example.sonda.controllers;
 
 import java.net.URI;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.sonda.dto.AeronaveDTO;
-import com.example.sonda.enuns.Marca;
 import com.example.sonda.projections.AeronaveMinProjection;
 import com.example.sonda.services.AeronaveService;
 import com.example.sonda.specifications.SpecificationTemplate;
@@ -87,11 +85,6 @@ public class AeronaveController {
 	public ResponseEntity<Long> getCountLastWeek(){
 		return ResponseEntity.ok().body(service.getCountLastWeek());
 	}
-	
-	@GetMapping(value = "/marcas")
-	public ResponseEntity<List<Marca>> getMarca(){
-		return ResponseEntity.ok().body(Arrays.asList(Marca.values()));
-	}
-	
+		
 
 }

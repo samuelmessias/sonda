@@ -25,7 +25,7 @@ public class AeronaveDTO implements Serializable{
 	
 	private Long id;
 	
-	@NotBlank(groups = AeronaveView.RegistrationPostPut.class)	
+	@NotBlank(groups = AeronaveView.RegistrationPostPut.class, message = "Campo de preenchimento obrigatório")	
 	@JsonView(AeronaveView.RegistrationPostPut.class)
 	private String nome;	
 	
