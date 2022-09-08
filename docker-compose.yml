@@ -1,0 +1,10 @@
+version: "3"
+services:
+  pg-tasks:
+    container_name: pg-tasks2
+    image: postgres:9.6
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_DB=sonda
+      - POSTGRES_PASSWORD=password

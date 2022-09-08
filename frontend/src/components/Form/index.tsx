@@ -7,6 +7,9 @@ import { BASE_URL } from "util/request";
 import axios from "axios";
 import { toast } from 'react-toastify';
 import './styles.css';
+import { Marcas } from "types/marcas";
+import { SelectOptionsCombo } from "types/selectVendidos";
+import { AeronaveInsert } from "types/aeronaveInsert";
 
 type Props = {
     onSubmitChange: Function;
@@ -19,13 +22,38 @@ const Form = ({ onSubmitChange }: Props) => {
         formState: { errors },
         setValue,
         control,
-    } = useForm<Aeronave>();
+    } = useForm<AeronaveInsert>();
 
 
-    const onSubmit = (formData: Aeronave) => {
-        const data = {
-            ...formData
+    const optionsMarca = [
+        { valor: false, label: 'Airbus' },
+        { valor: true, label: 'Boeing' },
+        { valor: true, label: 'Embraer' }
+    ]
+
+    const optionsVendido = [
+        { valor: false, label: 'Vendido' },
+        { valor: true, label: 'Não vendido' }
+    ]
+
+
+
+    const onSubmit = (formData: AeronaveInsert) => {
+
+        const aeronave: Aeronave = {
+            id: 0,
+            nome: formData.nome,
+            marca: formData.marca.label,
+            ano: formData.ano,
+            descricao: formData.descricao,
+            vendido: formData.vendido.valor
         };
+
+        const data = {
+            ...aeronave
+        };
+
+        console.log(data);
 
         const params: AxiosParams = {
             method: 'POST',
@@ -36,10 +64,10 @@ const Form = ({ onSubmitChange }: Props) => {
         console.log(data)
         axios(params).then(response => {
             setValue('nome', '');
-            setValue('marca', '');
+            setValue('descricao', '')
             setValue('ano', 0);
-            setValue('descricao', '');
-            setValue('vendido', false);
+
+
             onSubmitChange();
             toast.info("Aeronave salva com sucesso");
         }).catch((error) => {
@@ -81,33 +109,42 @@ const Form = ({ onSubmitChange }: Props) => {
 
                                 <div className="col-sm-4">
                                     <div className="margin-bottom-30 ">
-                                        <input
-                                            {...register('marca', {
-                                                required: 'Campo obrigatório',
-                                            })}
-                                            type="text"
-                                            className={`form-control base-input ${errors.marca ? 'is-invalid' : ''
-                                                }`}
-                                            placeholder="Marca"
+                                        <Controller
                                             name="marca"
+                                            rules={{ required: true }}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <Select
+                                                    {...field}
+                                                    options={optionsMarca}
+                                                    placeholder="Marca"
+                                                    getOptionLabel={(test: SelectOptionsCombo) => String(test.label)}
+                                                    getOptionValue={(test: SelectOptionsCombo) => String(test.valor)}
+                                                />
+                                            )}
                                         />
-                                        <div className="invalid-feedback d-block">
-                                            {errors.marca?.message}
-                                        </div>
+                                        {errors.marca && (
+                                            <div className="invalid-feedback d-block">
+                                                Campo obrigatório
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
                                 <div className="col-sm-4">
                                     <div className="margin-bottom-30 ">
-                                        <input
-                                            {...register('vendido', {
-
-                                            })}
-                                            type="text"
-                                            className={`form-control base-input ${errors.vendido ? 'is-invalid' : ''
-                                                }`}
-                                            placeholder="Vendido"
+                                        <Controller
                                             name="vendido"
+                                            rules={{ required: true }}
+                                            control={control}
+                                            render={({ field }) => (
+                                                <Select
+                                                    {...field}
+                                                    options={optionsVendido}
+                                                    getOptionLabel={(test: SelectOptionsCombo) => String(test.label)}
+                                                    getOptionValue={(test: SelectOptionsCombo) => String(test.valor)}
+                                                />
+                                            )}
                                         />
                                         <div className="invalid-feedback d-block">
                                             {errors.vendido?.message}

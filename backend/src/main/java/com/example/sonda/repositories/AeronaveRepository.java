@@ -19,7 +19,7 @@ public interface AeronaveRepository extends JpaRepository<Aeronave, Long>, JpaSp
 	@Query(value = "SELECT marca, COUNT(*)qto FROM TB_AERONAVE GROUP BY marca ORDER BY marca ASC", nativeQuery=true)
 	List<AeronaveMinProjection> getCountByMarca();
 	
-	@Query(value = "SELECT COUNT(*) qto FROM TB_AERONAVE WHERE created  > now() - 7", nativeQuery=true)
+	@Query(value = "SELECT COUNT(*) qto FROM TB_AERONAVE WHERE created  > now() - interval '1 day'", nativeQuery=true)
     long getCountLastWeek();
 	
 
